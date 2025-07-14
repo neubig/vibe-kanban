@@ -4,6 +4,7 @@ pub mod dev_server;
 pub mod echo;
 pub mod gemini;
 pub mod opencode;
+pub mod openhands;
 pub mod setup_script;
 
 pub use amp::{AmpExecutor, AmpFollowupExecutor};
@@ -12,4 +13,5 @@ pub use dev_server::DevServerExecutor;
 pub use echo::EchoExecutor;
 pub use gemini::{GeminiExecutor, GeminiFollowupExecutor};
 pub use opencode::{OpencodeExecutor, OpencodeFollowupExecutor};
+pub use openhands::{OpenhandsExecutor, OpenhandsFollowupExecutor};
 pub use setup_script::SetupScriptExecutor;

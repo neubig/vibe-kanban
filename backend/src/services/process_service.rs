@@ -673,6 +673,7 @@ impl ProcessService {
                     crate::executor::ExecutorConfig::Amp => "amp",
                     crate::executor::ExecutorConfig::Gemini => "gemini",
                     crate::executor::ExecutorConfig::Opencode => "opencode",
+                    crate::executor::ExecutorConfig::Openhands => "openhands",
                 };
                 (
                     "executor".to_string(),
@@ -687,6 +688,7 @@ impl ProcessService {
                     crate::executor::ExecutorConfig::Amp => "amp",
                     crate::executor::ExecutorConfig::Gemini => "gemini",
                     crate::executor::ExecutorConfig::Opencode => "opencode",
+                    crate::executor::ExecutorConfig::Openhands => "openhands",
                 };
                 (
                     "followup_executor".to_string(),
@@ -802,7 +804,7 @@ impl ProcessService {
             } => {
                 use crate::executors::{
                     AmpFollowupExecutor, ClaudeFollowupExecutor, GeminiFollowupExecutor,
-                    OpencodeFollowupExecutor,
+                    OpencodeFollowupExecutor, OpenhandsFollowupExecutor,
                 };
 
                 let executor: Box<dyn crate::executor::Executor> = match config {
@@ -845,6 +847,16 @@ impl ProcessService {
                             })
                         } else {
                             return Err(TaskAttemptError::TaskNotFound); // No session ID for followup
+                        }
+                    }
+                    crate::executor::ExecutorConfig::Openhands => {
+                        if let Some(cid) = session_id {
+                            Box::new(OpenhandsFollowupExecutor {
+                                conversation_id: cid.clone(),
+                                prompt: prompt.clone(),
+                            })
+                        } else {
+                            return Err(TaskAttemptError::TaskNotFound); // No conversation ID for followup
                         }
                     }
                 };
